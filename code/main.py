@@ -1,4 +1,5 @@
 from settings import *
+from sprites import *
 
 class Game:
     def __init__(self):
@@ -11,7 +12,14 @@ class Game:
         # groups 
         self.all_sprites = pygame.sprite.Group()
         self.collision_sprites = pygame.sprite.Group()
+        
+        # setup
+        self.setup()
 
+    def setup(self):
+       Player((20, 40), self.all_sprites, self.collision_sprites)
+       image = pygame.image.load(join('images', 'can_broken.png')).convert_alpha()
+       Sprite((200, 400), image, (self.all_sprites, self.collision_sprites))
 
     def run(self):
         while self.running:

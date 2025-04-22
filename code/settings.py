@@ -1,4 +1,5 @@
 import pygame
+from os.path import join 
 
 #game setup
 WINDOW_WIDTH = 800
