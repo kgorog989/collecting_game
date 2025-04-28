@@ -1,9 +1,10 @@
-import pygame
+import pygame 
 from os.path import join 
+from os import walk
 
-#game setup
-WINDOW_WIDTH = 800
-WINDOW_HEIGHT = 500
-FRAMERATE = 60
+WINDOW_WIDTH, WINDOW_HEIGHT = 800,520 
+TILE_SIZE = 16
+PLAYER_SIZE = 48
+SCALING_FACTOR = 6
 
-BG_COLOR = "#556634"
+WATER_COLOR = '#9bd4c3'

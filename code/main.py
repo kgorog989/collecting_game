@@ -1,5 +1,8 @@
 from settings import *
+from player import Player
 from sprites import *
+from pytmx.util_pygame import load_pygame
+from groups import AllSprites
 
 class Game:
     def __init__(self):
@@ -10,35 +13,60 @@ class Game:
         self.running = True
 
         # groups 
-        self.all_sprites = pygame.sprite.Group()
+        self.all_sprites = AllSprites()
         self.collision_sprites = pygame.sprite.Group()
-        
-        # setup
-        self.setup()
 
+        self.setup()
+        
     def setup(self):
-       Player((20, 40), self.all_sprites, self.collision_sprites)
-       image = pygame.image.load(join('images', 'can_broken.png')).convert_alpha()
-       Sprite((200, 400), image, (self.all_sprites, self.collision_sprites))
+        map = load_pygame(join('world', 'tmx', 'world_map.tmx'))
+
+        for x, y, image in map.get_layer_by_name('Water').tiles():
+            Sprite((x * TILE_SIZE*SCALING_FACTOR,
+                    y * TILE_SIZE*SCALING_FACTOR), 
+                    pygame.transform.scale(image, (TILE_SIZE*SCALING_FACTOR,TILE_SIZE*SCALING_FACTOR)), 
+                    self.all_sprites)
+            
+        for x, y, image in map.get_layer_by_name('Ground').tiles():
+            Sprite((x * TILE_SIZE*SCALING_FACTOR,
+                    y * TILE_SIZE*SCALING_FACTOR), 
+                    pygame.transform.scale(image, (TILE_SIZE*SCALING_FACTOR,TILE_SIZE*SCALING_FACTOR)), 
+                    self.all_sprites)
+        
+        for obj in map.get_layer_by_name('Objects'):
+            image = pygame.transform.scale(obj.image, (TILE_SIZE*SCALING_FACTOR,TILE_SIZE*SCALING_FACTOR))
+            CollisionSprite((obj.x*SCALING_FACTOR, 
+                             obj.y*SCALING_FACTOR), 
+                             image,
+                             (self.all_sprites, self.collision_sprites))
+        
+        #for obj in map.get_layer_by_name('Collisions'):
+        #    CollisionSprite((obj.x, obj.y), pygame.Surface((obj.width, obj.height)), self.collision_sprites)
+
+        for obj in map.get_layer_by_name('Entities'):
+            if obj.name == 'Player':
+                self.player = Player((obj.x*SCALING_FACTOR,obj.y*SCALING_FACTOR), self.all_sprites, self.collision_sprites)
 
     def run(self):
         while self.running:
-            dt = self.clock.tick(FRAMERATE) / 1000 
+            # dt 
+            dt = self.clock.tick() / 1000
 
+            # event loop 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.running = False 
-            
-            # update
+                    self.running = False
+
+            # update 
             self.all_sprites.update(dt)
 
-            # draw 
-            self.display_surface.fill(BG_COLOR)
-            self.all_sprites.draw(self.display_surface)
+            # draw
+            self.display_surface.fill(WATER_COLOR)
+            self.all_sprites.draw(self.player.rect.center)
             pygame.display.update()
-        
+
         pygame.quit()
 
 if __name__ == '__main__':
     game = Game()
-    game.run() 
+    game.run()
