@@ -32,6 +32,18 @@ class Game:
                     y * TILE_SIZE*SCALING_FACTOR), 
                     pygame.transform.scale(image, (TILE_SIZE*SCALING_FACTOR,TILE_SIZE*SCALING_FACTOR)), 
                     self.all_sprites)
+            
+        for x, y, image in map.get_layer_by_name('Dirt').tiles():
+            Sprite((x * TILE_SIZE*SCALING_FACTOR,
+                    y * TILE_SIZE*SCALING_FACTOR), 
+                    pygame.transform.scale(image, (TILE_SIZE*SCALING_FACTOR,TILE_SIZE*SCALING_FACTOR)), 
+                    self.all_sprites)
+            
+        for x, y, image in map.get_layer_by_name('Fences').tiles():
+            Sprite((x * TILE_SIZE*SCALING_FACTOR,
+                    y * TILE_SIZE*SCALING_FACTOR), 
+                    pygame.transform.scale(image, (TILE_SIZE*SCALING_FACTOR,TILE_SIZE*SCALING_FACTOR)), 
+                    (self.all_sprites, self.collision_sprites))
         
         for obj in map.get_layer_by_name('Objects'):
             image = pygame.transform.scale(obj.image, (TILE_SIZE*SCALING_FACTOR,TILE_SIZE*SCALING_FACTOR))
@@ -40,8 +52,10 @@ class Game:
                              image,
                              (self.all_sprites, self.collision_sprites))
         
-        #for obj in map.get_layer_by_name('Collisions'):
-        #    CollisionSprite((obj.x, obj.y), pygame.Surface((obj.width, obj.height)), self.collision_sprites)
+        for obj in map.get_layer_by_name('Collisions'):
+            CollisionSprite((obj.x*SCALING_FACTOR, obj.y*SCALING_FACTOR), 
+                            pygame.Surface((obj.width*SCALING_FACTOR, obj.height*SCALING_FACTOR)), 
+                            self.collision_sprites)
 
         for obj in map.get_layer_by_name('Entities'):
             if obj.name == 'Player':
