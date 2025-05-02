@@ -46,7 +46,7 @@ class Game:
                     (self.all_sprites, self.collision_sprites))
         
         for obj in map.get_layer_by_name('Objects'):
-            image = pygame.transform.scale(obj.image, (TILE_SIZE*SCALING_FACTOR,TILE_SIZE*SCALING_FACTOR))
+            image = pygame.transform.scale(obj.image, (obj.width*SCALING_FACTOR,obj.height*SCALING_FACTOR))
             CollisionSprite((obj.x*SCALING_FACTOR, 
                              obj.y*SCALING_FACTOR), 
                              image,
