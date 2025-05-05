@@ -60,6 +60,8 @@ class Game:
         for obj in map.get_layer_by_name('Entities'):
             if obj.name == 'Player':
                 self.player = Player((obj.x*SCALING_FACTOR,obj.y*SCALING_FACTOR), self.all_sprites, self.collision_sprites)
+            if obj.name == 'Chicken':
+                Chicken((obj.x*SCALING_FACTOR,obj.y*SCALING_FACTOR), (self.all_sprites, self.collision_sprites))
 
     def run(self):
         while self.running:
