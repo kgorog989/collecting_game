@@ -1,6 +1,7 @@
 from settings import *
 from player import Player
 from sprites import *
+from chicken import Chicken
 from pytmx.util_pygame import load_pygame
 from groups import AllSprites
 
@@ -15,6 +16,7 @@ class Game:
         # groups 
         self.all_sprites = AllSprites()
         self.collision_sprites = pygame.sprite.Group()
+        self.entity_sprites =  pygame.sprite.Group()
 
         self.setup()
         
@@ -61,7 +63,7 @@ class Game:
             if obj.name == 'Player':
                 self.player = Player((obj.x*SCALING_FACTOR,obj.y*SCALING_FACTOR), self.all_sprites, self.collision_sprites)
             if obj.name == 'Chicken':
-                Chicken((obj.x*SCALING_FACTOR,obj.y*SCALING_FACTOR), (self.all_sprites, self.collision_sprites))
+                Chicken((obj.x*SCALING_FACTOR,obj.y*SCALING_FACTOR), (self.all_sprites, self.entity_sprites), self.collision_sprites)
 
     def run(self):
         while self.running:
