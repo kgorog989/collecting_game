@@ -17,6 +17,11 @@ class Game:
         self.all_sprites = AllSprites()
         self.collision_sprites = pygame.sprite.Group()
         self.collectable_sprites = pygame.sprite.Group()
+        
+        # score
+        self.font = pygame.font.SysFont('Arial', 40, bold=True)
+        self.score = SCORE_DATA
+        self.text_surface = self.font.render(str(self.score), True, (0, 0, 0))
 
         self.setup()
         
@@ -62,6 +67,7 @@ class Game:
         for obj in map.get_layer_by_name('Entities'):
             if obj.name == 'Player':
                 self.player = Player((obj.x*SCALING_FACTOR,obj.y*SCALING_FACTOR), 
+                                     self.score, 
                                      self.all_sprites, 
                                      self.collision_sprites, 
                                      self.collectable_sprites)
@@ -87,6 +93,8 @@ class Game:
             # draw
             self.display_surface.fill(WATER_COLOR)
             self.all_sprites.draw(self.player.rect.center)
+            self.text_surface = self.font.render(str(self.score['score']), True, (60, 60, 60))
+            self.display_surface.blit(self.text_surface, (10, 10))
             pygame.display.update()
 
         pygame.quit()
