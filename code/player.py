@@ -2,7 +2,7 @@ from settings import *
 from spritesheet import Spritesheet
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, groups, collision_sprites):
+    def __init__(self, pos, groups, collision_sprites, collectable_sprites):
         super().__init__(groups)
         self.load_images()
         self.state, self.frame_index = 'right', 0
@@ -14,6 +14,14 @@ class Player(pygame.sprite.Sprite):
         self.direction = pygame.Vector2()
         self.speed = 500
         self.collision_sprites = collision_sprites
+        
+        # collecting
+        self.collectable_sprites = collectable_sprites
+        
+    def egg_collecting(self):
+        for sprite in self.collectable_sprites:
+            if sprite.rect.colliderect(self.hitbox_rect):
+                sprite.kill()
 
     def load_images(self):
         self.spritesheet = Spritesheet(join('world', 'graphics', 'Characters', 'Basic Charakter Spritesheet.png'), 
@@ -65,6 +73,7 @@ class Player(pygame.sprite.Sprite):
         self.image = self.frames[self.state][int(self.frame_index) % len(self.frames[self.state])]
 
     def update(self, dt):
+        self.egg_collecting()
         self.input()
         self.move(dt)
         self.animate(dt)

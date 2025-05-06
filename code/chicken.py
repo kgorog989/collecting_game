@@ -2,13 +2,15 @@ from settings import *
 from sprites import *
 from spritesheet import Spritesheet
 from timer import Timer
+from egg import Egg
 from random import choice
 
 class Chicken(CollisionSprite):
-    def __init__(self, pos, groups, collision_sprites):
+    def __init__(self, pos, groups, collision_sprites, collectable_sprites):
         self.load_images()
         self.state, self.frame_index = 'resting', 0
         surf = self.frames[self.state][self.frame_index]
+        self.groups = groups
         super().__init__(pos, surf, groups)
         
         # movement 
@@ -17,6 +19,14 @@ class Chicken(CollisionSprite):
         self.direction = pygame.Vector2()
         self.speed = 200
         self.collision_sprites = collision_sprites
+        
+        # egg making
+        self.collectable_sprites = collectable_sprites
+        self.egg_timer = Timer(2000, func = self.make_egg, autostart = True, repeat = True)
+        
+    def make_egg(self):
+        Egg(self.rect.center - pygame.Vector2(30,20), (self.groups, self.collectable_sprites))
+        
         
     def load_images(self):
         self.spritesheet = Spritesheet(join('world', 'graphics', 'Characters', 'Free Chicken Sprites.png'), 
@@ -60,8 +70,9 @@ class Chicken(CollisionSprite):
             self.collision('vertical')
         if self.state == 'moving diagonal':
             self.rect.x += self.direction.x * self.speed * dt
+            self.collision('horizontal')
             self.rect.y += self.direction.y * self.speed * dt
-            self.collision('diagonal')
+            self.collision('vertical')
         self.rect.center = self.rect.center
 
     def collision(self, direction):
@@ -73,11 +84,6 @@ class Chicken(CollisionSprite):
                 elif direction == 'vertical':
                     if self.direction.y < 0: self.rect.top = sprite.rect.bottom
                     if self.direction.y > 0: self.rect.bottom = sprite.rect.top
-                else:
-                    collision_spot = pygame.Vector2()
-                    collision_spot.x = self.rect.centerx - sprite.rect.centerx
-                    collision_spot.y = self.rect.centery - sprite.rect.centery
-                    print(collision_spot)
                     
     def animate(self, dt):
         # get animation state 
@@ -94,5 +100,6 @@ class Chicken(CollisionSprite):
             
     def update(self, dt):
         self.state_timer.update()
+        self.egg_timer.update()
         self.move(dt)
         self.animate(dt)
