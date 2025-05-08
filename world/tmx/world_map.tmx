@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="120" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="84">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="120" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="88">
  <tileset firstgid="1" source="../tsx/water.tsx"/>
  <tileset firstgid="5" source="../tsx/grass.tsx"/>
  <tileset firstgid="82" source="../tsx/basic_plants.tsx"/>
@@ -480,6 +480,18 @@
    <point/>
   </object>
   <object id="82" name="Chicken" x="470.667" y="560">
+   <point/>
+  </object>
+  <object id="84" name="Cow" x="452" y="452">
+   <point/>
+  </object>
+  <object id="85" name="Cow" x="233.333" y="242">
+   <point/>
+  </object>
+  <object id="86" name="Cow" x="337.333" y="426.667">
+   <point/>
+  </object>
+  <object id="87" name="Chicken" x="542.667" y="364">
    <point/>
   </object>
  </objectgroup>
