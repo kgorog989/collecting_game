@@ -2,7 +2,7 @@ from settings import *
 from spritesheet import Spritesheet
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, score, groups, collision_sprites, collectable_sprites):
+    def __init__(self, pos, game_data, groups, collision_sprites, collectable_sprites):
         super().__init__(groups)
         self.load_images()
         self.state, self.frame_index = 'right', 0
@@ -16,14 +16,17 @@ class Player(pygame.sprite.Sprite):
         self.collision_sprites = collision_sprites
         
         # collecting
-        self.score = score
+        self.game_data = game_data
         self.collectable_sprites = collectable_sprites
+        self.collect_sound = pygame.mixer.Sound(join('audio', 'collect_egg.mp3'))
+        self.collect_sound.set_volume(0.5)
         
     def egg_collecting(self):
         for sprite in self.collectable_sprites:
             if sprite.rect.colliderect(self.hitbox_rect):
+                self.collect_sound.play()
                 sprite.kill()
-                self.score['score'] += 1
+                self.game_data['score'] += 1
 
     def load_images(self):
         self.spritesheet = Spritesheet(join('world', 'graphics', 'Characters', 'Basic Charakter Spritesheet.png'), 
