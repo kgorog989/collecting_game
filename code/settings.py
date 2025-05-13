@@ -9,9 +9,9 @@ COW_SIZE = 32
 HEART_SIZE = 150
 SCALING_FACTOR = 4
 
-GAME_DATA = {'score': 0, 'health': 3}
+GAME_DATA = {'running': True, 'score': 0, 'health': 3}
 
-FONT_SIZE = 40
+FONT_SIZE = 60
 FONT_COLOR = (110, 86, 43)
 
 WATER_COLOR = '#9bd4c3'

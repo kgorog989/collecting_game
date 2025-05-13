@@ -12,16 +12,16 @@ class Game:
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         pygame.display.set_caption('Game')
         self.clock = pygame.time.Clock()
-        self.running = True
         self.game_data = GAME_DATA
 
         # groups 
         self.all_sprites = AllSprites()
         self.collision_sprites = pygame.sprite.Group()
         self.collectable_sprites = pygame.sprite.Group()
+        self.cow_sprites = pygame.sprite.Group()
         
         # score and health
-        self.font = pygame.font.Font(join('fonts', 'KarmaFuture.ttf'), FONT_SIZE)
+        self.font = pygame.font.Font(join('fonts', 'Masaaki-Regular.otf'), FONT_SIZE)
         self.score_egg = pygame.transform.scale(pygame.image.load(join('world', 'graphics', 'Objects', 'Egg_item.png')).convert_alpha(), 
                                                 (TILE_SIZE*SCALING_FACTOR, TILE_SIZE*SCALING_FACTOR))
         self.score_egg_rect = self.score_egg.get_frect(topleft = (5, 5))
@@ -81,7 +81,8 @@ class Game:
                                      self.game_data, 
                                      self.all_sprites, 
                                      self.collision_sprites, 
-                                     self.collectable_sprites)
+                                     self.collectable_sprites, 
+                                     self.cow_sprites)
             if obj.name == 'Chicken':
                 Chicken((obj.x*SCALING_FACTOR,obj.y*SCALING_FACTOR), 
                         self.all_sprites, 
@@ -89,27 +90,27 @@ class Game:
                         self.collectable_sprites)
             if obj.name == 'Cow':
                 Cow((obj.x*SCALING_FACTOR,obj.y*SCALING_FACTOR), 
-                        self.all_sprites, 
+                        (self.all_sprites, self.cow_sprites), 
                         self.collision_sprites, 
                         self.collectable_sprites)
 
     def update_displayed_data(self):
         self.display_surface.blit(self.score_egg, self.score_egg_rect)
         self.display_surface.blit(self.heart, self.heart_rect)
-        self.text_surface_score = self.font.render("= " + str(self.game_data['score']), True, FONT_COLOR)
-        self.text_surface_health = self.font.render("= " + str(self.game_data['health']), True, FONT_COLOR)
-        self.display_surface.blit(self.text_surface_score, (self.score_egg_rect.width + 10, 10))
-        self.display_surface.blit(self.text_surface_health, (WINDOW_WIDTH / 1.1, 10))
+        self.text_surface_score = self.font.render(str(self.game_data['score']), True, FONT_COLOR)
+        self.text_surface_health = self.font.render(str(self.game_data['health']), True, FONT_COLOR)
+        self.display_surface.blit(self.text_surface_score, (self.score_egg_rect.width + 10, -5))
+        self.display_surface.blit(self.text_surface_health, (WINDOW_WIDTH / 1.1, -5))
 
     def run(self):
-        while self.running:
+        while self.game_data['running']:
             # dt 
             dt = self.clock.tick() / 1000
 
             # event loop 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.running = False
+                    self.game_data['running'] = False
 
             # update 
             self.all_sprites.update(dt)

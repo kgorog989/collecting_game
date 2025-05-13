@@ -2,18 +2,22 @@ from settings import *
 from spritesheet import Spritesheet
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, game_data, groups, collision_sprites, collectable_sprites):
+    def __init__(self, pos, game_data, groups, collision_sprites, collectable_sprites, cow_sprites):
         super().__init__(groups)
         self.load_images()
         self.state, self.frame_index = 'right', 0
         self.image = self.spritesheet.get_sprite((self.frame_index, self.frame_index))
         self.rect = self.image.get_frect(center = pos)
         self.hitbox_rect = self.rect.inflate(-140, -155)
+        self.starting_point = pos
     
         # movement 
         self.direction = pygame.Vector2()
         self.speed = 500
         self.collision_sprites = collision_sprites
+        self.cow_sprites = cow_sprites
+        self.cow_sound = pygame.mixer.Sound(join('audio', 'moo.aiff'))
+        self.cow_sound.set_volume(0.5)
         
         # collecting
         self.game_data = game_data
@@ -27,6 +31,15 @@ class Player(pygame.sprite.Sprite):
                 self.collect_sound.play()
                 sprite.kill()
                 self.game_data['score'] += 1
+
+    def cow_collide(self):
+        for sprite in self.cow_sprites:
+            if sprite.rect.colliderect(self.hitbox_rect):
+                self.cow_sound.play()
+                self.game_data['health'] -= 1
+                self.hitbox_rect.center = self.starting_point
+                if self.game_data['health'] == 0:
+                    self.game_data['running'] = False
 
     def load_images(self):
         self.spritesheet = Spritesheet(join('world', 'graphics', 'Characters', 'Basic Charakter Spritesheet.png'), 
@@ -79,6 +92,7 @@ class Player(pygame.sprite.Sprite):
 
     def update(self, dt):
         self.egg_collecting()
+        self.cow_collide()
         self.input()
         self.move(dt)
         self.animate(dt)
