@@ -1,8 +1,6 @@
 from settings import *
 from sprites import *
 from spritesheet import Spritesheet
-from timer import Timer
-from egg import Egg
 from random import choice
 
 class Cow(CollisionSprite):

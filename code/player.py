@@ -10,6 +10,8 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_frect(center = pos)
         self.hitbox_rect = self.rect.inflate(-140, -155)
         self.starting_point = pos
+        self.invincible = False
+        self.invincibility_timer = Timer(3000, func = self.turn_off_invincibility)
     
         # movement 
         self.direction = pygame.Vector2()
@@ -33,13 +35,19 @@ class Player(pygame.sprite.Sprite):
                 self.game_data['score'] += 1
 
     def cow_collide(self):
-        for sprite in self.cow_sprites:
-            if sprite.rect.colliderect(self.hitbox_rect):
-                self.cow_sound.play()
-                self.game_data['health'] -= 1
-                self.hitbox_rect.center = self.starting_point
-                if self.game_data['health'] == 0:
-                    self.game_data['running'] = False
+        if not self.invincible:
+            for sprite in self.cow_sprites:
+                if sprite.rect.inflate(-120, -40).colliderect(self.hitbox_rect):
+                    self.cow_sound.play()
+                    self.game_data['health'] -= 1
+                    self.hitbox_rect.center = self.starting_point
+                    self.invincible = True
+                    self.invincibility_timer.activate()
+                    if self.game_data['health'] == 0:
+                        self.game_data['running'] = False
+    
+    def turn_off_invincibility(self):
+        self.invincible = False
 
     def load_images(self):
         self.spritesheet = Spritesheet(join('world', 'graphics', 'Characters', 'Basic Charakter Spritesheet.png'), 
@@ -91,6 +99,7 @@ class Player(pygame.sprite.Sprite):
         self.image = self.frames[self.state][int(self.frame_index) % len(self.frames[self.state])]
 
     def update(self, dt):
+        self.invincibility_timer.update()
         self.egg_collecting()
         self.cow_collide()
         self.input()

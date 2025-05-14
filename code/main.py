@@ -27,7 +27,10 @@ class Game:
         self.score_egg_rect = self.score_egg.get_frect(topleft = (5, 5))
         self.heart = pygame.transform.scale(pygame.image.load(join('images', 'heart.png')).convert_alpha(), 
                                                 (HEART_SIZE, HEART_SIZE))
-        self.heart_rect = self.heart.get_frect(topleft = (WINDOW_WIDTH / 1.3, -33))
+        self.heart_rect = self.heart.get_frect(topleft = (WINDOW_WIDTH / 1.17, 10))
+        
+        # invincible
+        self.text_surface_invincible = self.font.render('Invincible', True, FONT_COLOR)
         
         # audio
         self.game_audio = pygame.mixer.Sound(join('audio', 'relaxing_chiptune_music.mp3'))
@@ -100,7 +103,9 @@ class Game:
         self.text_surface_score = self.font.render(str(self.game_data['score']), True, FONT_COLOR)
         self.text_surface_health = self.font.render(str(self.game_data['health']), True, FONT_COLOR)
         self.display_surface.blit(self.text_surface_score, (self.score_egg_rect.width + 10, -5))
-        self.display_surface.blit(self.text_surface_health, (WINDOW_WIDTH / 1.1, -5))
+        self.display_surface.blit(self.text_surface_health, (WINDOW_WIDTH / 1.07, -5))
+        if self.player.invincible:
+            self.display_surface.blit(self.text_surface_invincible, (5, WINDOW_HEIGHT - 80))
 
     def run(self):
         while self.game_data['running']:

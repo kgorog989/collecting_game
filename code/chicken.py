@@ -1,7 +1,6 @@
 from settings import *
 from sprites import *
 from spritesheet import Spritesheet
-from timer import Timer
 from egg import Egg
 from random import choice
 
@@ -22,7 +21,7 @@ class Chicken(CollisionSprite):
         
         # egg making
         self.collectable_sprites = collectable_sprites
-        self.egg_timer = Timer(2000, func = self.make_egg, autostart = True, repeat = True)
+        self.egg_timer = Timer(8000, func = self.make_egg, autostart = True, repeat = True)
         
     def make_egg(self):
         Egg(self.rect.center - pygame.Vector2(30,20), (self.groups, self.collectable_sprites))

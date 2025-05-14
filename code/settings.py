@@ -1,12 +1,13 @@
 import pygame 
 from os.path import join 
 from os import walk
+from timer import Timer
 
 WINDOW_WIDTH, WINDOW_HEIGHT = 800,520 
 TILE_SIZE = 16
 PLAYER_SIZE = 48
 COW_SIZE = 32
-HEART_SIZE = 150
+HEART_SIZE = 50
 SCALING_FACTOR = 4
 
 GAME_DATA = {'running': True, 'score': 0, 'health': 3}
