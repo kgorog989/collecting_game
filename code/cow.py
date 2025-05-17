@@ -1,7 +1,7 @@
 from settings import *
 from sprites import *
 from spritesheet import Spritesheet
-from random import choice
+from random import choice, randrange
 
 class Cow(CollisionSprite):
     def __init__(self, pos, groups, collision_sprites, collectable_sprites):
@@ -13,7 +13,7 @@ class Cow(CollisionSprite):
         
         # movement 
         self.states = ['resting', 'moving horizontal', 'moving vertical', 'moving diagonal']
-        self.state_timer = Timer(1500, func = self.switch_state, autostart = True, repeat = True)
+        self.state_timer = Timer(randrange(500, 1000), func = self.switch_state, autostart = True, repeat = True)
         self.direction = pygame.Vector2()
         self.speed = 100
         self.collision_sprites = collision_sprites
@@ -47,6 +47,7 @@ class Cow(CollisionSprite):
             
     def switch_state(self):
         self.state = choice(self.states)
+        self.speed = randrange(50, 200)
         if self.state == 'moving horizontal':
             self.direction.x = choice([-1,1])
         elif self.state == 'moving vertical':

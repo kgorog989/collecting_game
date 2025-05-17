@@ -2,7 +2,7 @@ from settings import *
 from sprites import *
 from spritesheet import Spritesheet
 from egg import Egg
-from random import choice
+from random import choice, randrange
 
 class Chicken(CollisionSprite):
     def __init__(self, pos, groups, collision_sprites, collectable_sprites):
@@ -14,14 +14,14 @@ class Chicken(CollisionSprite):
         
         # movement 
         self.states = ['resting', 'moving horizontal', 'moving vertical', 'moving diagonal']
-        self.state_timer = Timer(700, func = self.switch_state, autostart = True, repeat = True)
+        self.state_timer = Timer(randrange(200, 1000), func = self.switch_state, autostart = True, repeat = True)
         self.direction = pygame.Vector2()
         self.speed = 200
         self.collision_sprites = collision_sprites
         
         # egg making
         self.collectable_sprites = collectable_sprites
-        self.egg_timer = Timer(8000, func = self.make_egg, autostart = True, repeat = True)
+        self.egg_timer = Timer(randrange(6000, 20000), func = self.make_egg, autostart = True, repeat = True)
         
     def make_egg(self):
         Egg(self.rect.center - pygame.Vector2(30,20), (self.groups, self.collectable_sprites))
@@ -48,6 +48,7 @@ class Chicken(CollisionSprite):
             
     def switch_state(self):
         self.state = choice(self.states)
+        self.speed = randrange(100, 200)
         if self.state == 'moving horizontal':
             self.direction.x = choice([-1,1])
         elif self.state == 'moving vertical':

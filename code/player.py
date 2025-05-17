@@ -37,7 +37,7 @@ class Player(pygame.sprite.Sprite):
     def cow_collide(self):
         if not self.invincible:
             for sprite in self.cow_sprites:
-                if sprite.rect.inflate(-120, -40).colliderect(self.hitbox_rect):
+                if sprite.rect.inflate(-40, -40).colliderect(self.hitbox_rect):
                     self.cow_sound.play()
                     self.game_data['health'] -= 1
                     self.hitbox_rect.center = self.starting_point
