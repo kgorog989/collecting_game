@@ -5,7 +5,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, pos, game_data, groups, collision_sprites, collectable_sprites, cow_sprites):
         super().__init__(groups)
         self.load_images()
-        self.state, self.frame_index = 'right', 0
+        self.state, self.frame_index = 'down', 0
         self.image = self.spritesheet.get_sprite((self.frame_index, self.frame_index))
         self.rect = self.image.get_frect(center = pos)
         self.hitbox_rect = self.rect.inflate(-140, -155)
@@ -45,6 +45,14 @@ class Player(pygame.sprite.Sprite):
                     self.invincibility_timer.activate()
                     if self.game_data['health'] == 0:
                         self.game_data['running'] = False
+                        if self.game_data['score'] > self.game_data['highscore']:
+                            try:
+                                mkdir('data')
+                            except:
+                                pass
+                            score_file = open(join('data', 'highscore.txt'), 'w')
+                            score_file.write(str(self.game_data['score']))
+                            score_file.close()
     
     def turn_off_invincibility(self):
         self.invincible = False

@@ -10,9 +10,15 @@ class Game:
     def __init__(self):
         pygame.init()
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-        pygame.display.set_caption('Game')
+        pygame.display.set_caption('Egg Hunt!')
         self.clock = pygame.time.Clock()
         self.game_data = GAME_DATA
+        try:
+            score_file = open(join('data', 'highscore.txt'), 'r')
+            self.game_data['highscore'] = int(score_file.read())
+            score_file.close()
+        except:
+            pass
 
         # groups 
         self.all_sprites = AllSprites()
@@ -29,8 +35,9 @@ class Game:
                                                 (HEART_SIZE, HEART_SIZE))
         self.heart_rect = self.heart.get_frect(topleft = (WINDOW_WIDTH / 1.17, 10))
         
-        # invincible
+        # invincible, highscore text
         self.text_surface_invincible = self.font.render('Invincible', True, FONT_COLOR)
+        self.text_surface_highscore = self.font.render('Highscore: ' + str(self.game_data['highscore']), True, FONT_COLOR)
         
         # audio
         self.game_audio = pygame.mixer.Sound(join('audio', 'relaxing_chiptune_music.mp3'))
@@ -98,14 +105,25 @@ class Game:
                         self.collectable_sprites)
 
     def update_displayed_data(self):
+        # score
         self.display_surface.blit(self.score_egg, self.score_egg_rect)
-        self.display_surface.blit(self.heart, self.heart_rect)
         self.text_surface_score = self.font.render(str(self.game_data['score']), True, FONT_COLOR)
-        self.text_surface_health = self.font.render(str(self.game_data['health']), True, FONT_COLOR)
         self.display_surface.blit(self.text_surface_score, (self.score_egg_rect.width + 10, -5))
+        
+        # health
+        self.display_surface.blit(self.heart, self.heart_rect)
+        self.text_surface_health = self.font.render(str(self.game_data['health']), True, FONT_COLOR)
         self.display_surface.blit(self.text_surface_health, (WINDOW_WIDTH / 1.07, -5))
+        
+        # invincibility
         if self.player.invincible:
             self.display_surface.blit(self.text_surface_invincible, (5, WINDOW_HEIGHT - 80))
+            
+        # highscore
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_SPACE]:
+            self.display_surface.blit(self.text_surface_highscore, 
+                                      (WINDOW_WIDTH - self.text_surface_highscore.width - 5, WINDOW_HEIGHT - 80))
 
     def run(self):
         while self.game_data['running']:
@@ -116,6 +134,14 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.game_data['running'] = False
+                    if self.game_data['score'] > self.game_data['highscore']:
+                        try:
+                            mkdir('data')
+                        except:
+                            pass
+                        score_file = open(join('data', 'highscore.txt'), 'w')
+                        score_file.write(str(self.game_data['score']))
+                        score_file.close()
 
             # update 
             self.all_sprites.update(dt)
