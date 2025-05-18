@@ -35,3 +35,29 @@ Picking up an egg and colliding with a cow makes a sound. The game also has back
 
 <p align="center" width="100%">
 <img width="60%" alt="image" src="https://github.com/user-attachments/assets/5b41f3b9-dd9b-4b59-b5cc-5d20c68c8a3c">
+
+## Graphics, font, and audio sources
+
+Sprout Lands Asset Pack (Basic Pack) by CUP NOOBLE:  
+https://cupnooble.itch.io/sprout-lands-asset-pack
+
+16x16 heart by simodias (cc4):  
+https://simodias.itch.io/heart
+
+Masaaki Font by Philippe Moesch:  
+https://www.1001freefonts.com/masaaki.font
+
+Take Item Sound Effect by zennnsounds from pixabay.com:  
+https://pixabay.com/sound-effects/take-item-sound-effect-163073/
+
+Relaxing Chiptune Music by Migfus20 from Freesound (cc4):  
+https://freesound.org/people/Migfus20/sounds/679054/
+
+Moo1 - Moo Moo the Cow by manofham from Freesound (cc0):  
+https://freesound.org/people/manofham/sounds/700378/
+
+Licenses: 
+
+  https://creativecommons.org/licenses/by/4.0/
+  
+  https://creativecommons.org/publicdomain/zero/1.0/
