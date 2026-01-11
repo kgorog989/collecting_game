@@ -5,22 +5,77 @@ Game implemented in Python using the pygame module. Map created in Tiled.
 <p align="center" width="100%">
 <img width="40%" alt="image" src="https://github.com/user-attachments/assets/a1881eaf-6568-47f6-9d3d-89300437aad3">
 
-### Game Objective, Features
-Collect as many eggs as you can without bumping into cows. 
+## Game Objective
 
-Move with the **arrow keys**, the current highscore can be displayed with the **spacebar**. 
+Collect as many eggs as possible while avoiding cows.
 
-The player character has its own animation and is followed by the camera. 
+If you collide with a cow, you lose a life. The game ends when all lives are lost.
 
-Cows and chicken move randomly and have their own animation. The movement state and the speed of movement is randomly generated after a certain time passes. 
+## Controls
 
-Colliding with a cow costs a life. Three lives are available, invincibility is enabled for three seconds after losing one life and the player teleports back to the starting position, if no more lives are left the game closes. After death or closing the game the highscore is saved in a separate save file. 
+- **Arrow Keys** – Move the player
 
-The eggs are created by chickens after a certain time passes which is random for each. Eggs get destroyed if cows collide with them. Picking up an egg raises the score by one. The score and the lives left are both displayed at the top of the screen with an image next to them. 
+- **Spacebar** – Show current high score
 
-Picking up an egg and colliding with a cow makes a sound. The game also has background music. 
+## Features
 
-### Game Screenshots
+#### Player
+
+- Animated character
+
+- Camera follows the player
+
+- 3 lives total
+
+- 3 seconds of invincibility after taking damage (displayed at the bottom left corner)
+
+- Teleports back to the starting position after losing a life
+
+#### Enemies & NPCs
+
+- Cows and chickens move randomly
+
+- Each has its own animation
+
+- Movement direction and speed are randomized after a set time
+
+#### Eggs & Scoring
+
+- Chickens spawn eggs at random time intervals
+
+- Eggs are destroyed if a cow collides with them
+
+- Collecting an egg increases the score by 1
+
+- Score and remaining lives are shown at the top of the screen with icons
+
+#### Game Over & Saving
+
+- Colliding with a cow costs one life
+
+- When all lives are lost, the game closes
+
+- High score is saved to a file when the game ends
+
+#### Audio
+
+- Background music
+
+- Sound effects for:
+
+   - Collecting eggs
+
+   - Colliding with cows
+
+## Technologies Used 
+
+- Python
+
+- Pygame
+
+- Tiled Map Editor
+
+## Game Screenshots
 
 <p align="center" width="100%">
 <img width="60%" alt="image" src="https://github.com/user-attachments/assets/c5e9c916-bb90-42d1-984e-60353ca66053">
